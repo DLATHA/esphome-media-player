@@ -437,6 +437,7 @@ script:
           else:
             - lvgl.widget.show: media_play_icon
             - lvgl.widget.hide: media_pause_icon
+      - lvgl.widget.show: album_art_background_widget
       - lvgl.image.update:
           id: album_art_background_widget
           src: album_art_background
