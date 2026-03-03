@@ -517,13 +517,13 @@ script:
           else:
             - lvgl.widget.show: media_play_icon
             - lvgl.widget.hide: media_pause_icon
-      - if:
-          condition:
-            lambda: 'return !id(last_tv_artwork_url).empty();'
-          then:
-            - online_image.set_url:
-                id: tv_art_background
-                url: !lambda 'return id(last_tv_artwork_url);'
+      - lvgl.image.update:
+          id: album_art_background_widget
+          src: tv_art_background
+      - lvgl.widget.update:
+          id: album_art_background_widget
+          opa: 100%
+      - lvgl.widget.hide: artwork_error_label
       - script.execute: show_track_view
       - logger.log: "TV: entered TV mode"
 
@@ -566,13 +566,13 @@ script:
           else:
             - lvgl.widget.show: media_play_icon
             - lvgl.widget.hide: media_pause_icon
-      - if:
-          condition:
-            lambda: 'return !id(last_artwork_url).empty();'
-          then:
-            - online_image.set_url:
-                id: album_art_background
-                url: !lambda 'return id(last_artwork_url);'
+      - lvgl.image.update:
+          id: album_art_background_widget
+          src: album_art_background
+      - lvgl.widget.update:
+          id: album_art_background_widget
+          opa: 100%
+      - lvgl.widget.hide: artwork_error_label
       - script.execute: show_track_view
       - logger.log: "TV: exited TV mode"
 
