@@ -74,6 +74,7 @@ api:
         id(ha_base_url) = "http://" + client_address + ":8123";
     - lvgl.widget.hide: ha_setup_prompt
     - script.execute: subscribe_media_player
+    - script.execute: subscribe_tv_media_player
   on_client_disconnected:
     - lvgl.widget.hide: setup_prompt
     - if:
@@ -207,6 +208,14 @@ globals:
     type: bool
     initial_value: 'false'
 
+  # -- TV source mode --
+  - id: is_tv_mode
+    type: bool
+    initial_value: 'false'
+  - id: is_tv_idle
+    type: bool
+    initial_value: 'false'
+
   # -- Setup flow --
   - id: actions_prompt_acked
     type: bool
@@ -290,10 +299,17 @@ touchscreen:
 
           // --- Horizontal swipe: track navigation (works when playing or paused) ---
           if (abs(dx) > 80 && abs(dx) > abs(dy) * 2) {
-            std::string e = id(media_player_entity).state;
-            bool can_skip = !e.empty();
-            if (can_skip) {
-              can_skip = id(media_player_state_sensor).has_state();
+            bool can_skip = false;
+            if (id(is_tv_mode)) {
+              std::string e = id(tv_media_player_entity).state;
+              can_skip = !e.empty() && id(tv_media_player_state_sensor).has_state();
+              if (can_skip) {
+                std::string s = id(tv_media_player_state_sensor).state;
+                can_skip = (s == "playing" || s == "paused");
+              }
+            } else {
+              std::string e = id(media_player_entity).state;
+              can_skip = !e.empty() && id(media_player_state_sensor).has_state();
               if (can_skip) {
                 std::string s = id(media_player_state_sensor).state;
                 can_skip = (s == "playing" || s == "paused");
@@ -323,7 +339,12 @@ touchscreen:
               // UI is hidden — always allow showing it
               id(toggle_ui).execute();
             } else {
-              bool playing = id(media_player_state_sensor).has_state() && id(media_player_state_sensor).state == "playing";
+              bool playing;
+              if (id(is_tv_mode)) {
+                playing = id(tv_media_player_state_sensor).has_state() && id(tv_media_player_state_sensor).state == "playing";
+              } else {
+                playing = id(media_player_state_sensor).has_state() && id(media_player_state_sensor).state == "playing";
+              }
               if (playing) id(toggle_ui).execute();
             }
           }
@@ -380,7 +401,8 @@ script:
       - homeassistant.service:
           service: media_player.media_next_track
           variables:
-            target: !lambda 'return id(media_player_entity).state;'
+            target: !lambda |-
+              return id(is_tv_mode) ? id(tv_media_player_entity).state : id(media_player_entity).state;
           data_template:
             entity_id: "{{ target }}"
           on_error:
@@ -395,7 +417,8 @@ script:
       - homeassistant.service:
           service: media_player.media_previous_track
           variables:
-            target: !lambda 'return id(media_player_entity).state;'
+            target: !lambda |-
+              return id(is_tv_mode) ? id(tv_media_player_entity).state : id(media_player_entity).state;
           data_template:
             entity_id: "{{ target }}"
           on_error:
@@ -455,12 +478,127 @@ script:
             - lambda: 'id(is_ui_hidden) = false;'
             - lvgl.widget.show: track_info_overlay
             - lvgl.widget.show: track_info_text
-            - lvgl.widget.show: media_play_pause_button
             - lambda: |-
-                if (id(artist_has_content)) lv_obj_clear_flag(id(media_artist_label), LV_OBJ_FLAG_HIDDEN);
+                if (!id(is_tv_idle)) {
+                  lv_obj_clear_flag(id(media_play_pause_button), LV_OBJ_FLAG_HIDDEN);
+                  lv_obj_fade_in(id(media_play_pause_button), 200, 0);
+                }
+                if (id(artist_has_content) && !id(is_tv_idle)) lv_obj_clear_flag(id(media_artist_label), LV_OBJ_FLAG_HIDDEN);
                 lv_obj_fade_in(id(track_info_overlay), 200, 0);
                 lv_obj_fade_in(id(track_info_text), 200, 0);
-                lv_obj_fade_in(id(media_play_pause_button), 200, 0);
+
+  - id: enter_tv_mode
+    mode: single
+    then:
+      - lambda: |-
+          id(is_tv_mode) = true;
+          id(is_tv_idle) = false;
+      - lvgl.label.update:
+          id: media_title_label
+          text: !lambda |-
+            return id(tv_media_title_sensor).has_state() && !id(tv_media_title_sensor).state.empty()
+                ? id(tv_media_title_sensor).state : std::string("\xe2\x80\x94");
+      - if:
+          condition:
+            lambda: |-
+              return id(tv_media_artist_sensor).has_state()
+                  && !id(tv_media_artist_sensor).state.empty()
+                  && id(tv_media_artist_sensor).state != "\xe2\x80\x94";
+          then:
+            - lambda: 'id(artist_has_content) = true;'
+            - lvgl.label.update:
+                id: media_artist_label
+                text: !lambda 'return id(tv_media_artist_sensor).state;'
+            - lvgl.widget.show: media_artist_label
+          else:
+            - lambda: 'id(artist_has_content) = false;'
+            - lvgl.widget.hide: media_artist_label
+      - if:
+          condition:
+            lambda: |-
+              return id(tv_media_player_state_sensor).has_state()
+                  && id(tv_media_player_state_sensor).state == "playing";
+          then:
+            - lvgl.widget.hide: media_play_icon
+            - lvgl.widget.show: media_pause_icon
+          else:
+            - lvgl.widget.show: media_play_icon
+            - lvgl.widget.hide: media_pause_icon
+      - lvgl.image.update:
+          id: album_art_background_widget
+          src: tv_art_background
+      - lvgl.widget.update:
+          id: album_art_background_widget
+          opa: 100%
+      - lvgl.widget.hide: artwork_error_label
+      - if:
+          condition:
+            lambda: |-
+              return id(tv_entity_picture_sensor).has_state()
+                  && !id(tv_entity_picture_sensor).state.empty();
+          then:
+            - lambda: |-
+                std::string path = id(tv_entity_picture_sensor).state;
+                while (!path.empty() && (path.back() == '\n' || path.back() == '\r' || path.back() == ' ')) path.pop_back();
+                id(last_tv_artwork_url) = (path.substr(0, 7) == "http://" || path.substr(0, 8) == "https://") ? path : (id(ha_base_url) + path);
+            - online_image.set_url:
+                id: tv_art_background
+                url: !lambda 'return id(last_tv_artwork_url);'
+      - script.execute: show_track_view
+      - logger.log: "TV: entered TV mode"
+
+  - id: exit_tv_mode
+    mode: single
+    then:
+      - lambda: |-
+          id(is_tv_mode) = false;
+          id(is_tv_idle) = false;
+          lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
+          lv_obj_set_size(id(album_art_background_widget), 480, 480);
+          lv_obj_set_pos(id(album_art_background_widget), 0, 0);
+      - lvgl.widget.show: media_play_pause_button
+      - lvgl.widget.show: media_time_label
+      - lvgl.label.update:
+          id: media_title_label
+          text: !lambda |-
+            return id(media_title_sensor).has_state() && !id(media_title_sensor).state.empty()
+                ? id(media_title_sensor).state : std::string("\xe2\x80\x94");
+      - if:
+          condition:
+            lambda: |-
+              return id(media_artist_sensor).has_state()
+                  && !id(media_artist_sensor).state.empty()
+                  && id(media_artist_sensor).state != "\xe2\x80\x94";
+          then:
+            - lambda: 'id(artist_has_content) = true;'
+            - lvgl.label.update:
+                id: media_artist_label
+                text: !lambda 'return id(media_artist_sensor).state;'
+            - lvgl.widget.show: media_artist_label
+          else:
+            - lambda: 'id(artist_has_content) = false;'
+            - lvgl.widget.hide: media_artist_label
+      - if:
+          condition:
+            lambda: |-
+              return id(media_player_state_sensor).has_state()
+                  && id(media_player_state_sensor).state == "playing";
+          then:
+            - lvgl.widget.hide: media_play_icon
+            - lvgl.widget.show: media_pause_icon
+          else:
+            - lvgl.widget.show: media_play_icon
+            - lvgl.widget.hide: media_pause_icon
+      - lvgl.widget.show: album_art_background_widget
+      - lvgl.image.update:
+          id: album_art_background_widget
+          src: album_art_background
+      - lvgl.widget.update:
+          id: album_art_background_widget
+          opa: 100%
+      - lvgl.widget.hide: artwork_error_label
+      - script.execute: show_track_view
+      - logger.log: "TV: exited TV mode"
 
 
 

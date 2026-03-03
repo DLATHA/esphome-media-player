@@ -43,7 +43,7 @@ script:
     mode: restart
     then:
       - lambda: |-
-          auto *img = id(album_art_background);
+          auto *img = id(is_tv_mode) ? id(tv_art_background) : id(album_art_background);
           int img_w = img->get_width();
           int img_h = img->get_height();
           if (img_w <= 0 || img_h <= 0) return;
@@ -93,6 +93,7 @@ script:
 
             int dr = r / 3, dg = g / 3, db = b / 3;
             lv_obj_set_style_bg_color(id(accent_bg_panel), lv_color_make(dr, dg, db), 0);
+            lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(dr, dg, db), 0);
             int br = r * 3 / 4, bg = g * 3 / 4, bb = b * 3 / 4;
             lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(br, bg, bb), 0);
 
