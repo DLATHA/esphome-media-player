@@ -1,0 +1,320 @@
+# =============================================================================
+# SPEAKER GROUPING - Sonos multi-room control
+# =============================================================================
+# Subscribes to a HA template sensor (sensor.sonos_speakers) that auto-discovers
+# Sonos media_player entities, and to the group_members attribute on the
+# currently selected media player. Provides scripts to parse the data, update
+# the LVGL grouping panel, and call media_player.join / unjoin.
+#
+# Requires: homeassistant/sonos_speakers.yaml installed in HA packages/.
+# =============================================================================
+
+globals:
+  - id: speaker_count
+    type: int
+    initial_value: '0'
+  - id: speaker_entity_ids
+    type: std::string[8]
+  - id: speaker_names
+    type: std::string[8]
+  - id: speaker_grouped
+    type: bool[8]
+    initial_value: '{false}'
+  - id: grouping_panel_open
+    type: bool
+    initial_value: 'false'
+  - id: speaker_join_member
+    type: std::string
+    initial_value: '""'
+  - id: speaker_unjoin_target
+    type: std::string
+    initial_value: '""'
+
+text_sensor:
+  - platform: homeassistant
+    id: sonos_entity_ids_sensor
+    entity_id: sensor.sonos_speakers
+    attribute: entity_ids
+    on_value:
+      - script.execute: parse_speakers
+
+  - platform: homeassistant
+    id: sonos_names_sensor
+    entity_id: sensor.sonos_speakers
+    attribute: names
+
+  - platform: template
+    id: group_members_sensor
+    on_value:
+      - script.execute: update_group_state
+
+script:
+  # ---------------------------------------------------------------------------
+  # Parse the comma-separated entity_ids and names from the HA template sensor
+  # into fixed-size global arrays. Then refresh the LVGL panel.
+  # ---------------------------------------------------------------------------
+  - id: parse_speakers
+    mode: restart
+    then:
+      - lambda: |-
+          std::string ids_raw = id(sonos_entity_ids_sensor).state;
+          std::string names_raw = id(sonos_names_sensor).has_state()
+              ? id(sonos_names_sensor).state : "";
+
+          // Reset
+          id(speaker_count) = 0;
+          for (int i = 0; i < 8; i++) {
+            id(speaker_entity_ids)[i] = "";
+            id(speaker_names)[i] = "";
+            id(speaker_grouped)[i] = false;
+          }
+
+          if (ids_raw.empty() || ids_raw == "None" || ids_raw == "unknown") {
+            ESP_LOGW("speaker_group", "No Sonos speakers found");
+            lv_obj_add_flag(id(speaker_group_button), LV_OBJ_FLAG_HIDDEN);
+            return;
+          }
+
+          // Parse entity_ids
+          std::vector<std::string> ids;
+          size_t start = 0, end;
+          while ((end = ids_raw.find(',', start)) != std::string::npos && ids.size() < 8) {
+            std::string token = ids_raw.substr(start, end - start);
+            while (!token.empty() && token.front() == ' ') token.erase(0, 1);
+            while (!token.empty() && token.back() == ' ') token.pop_back();
+            if (!token.empty()) ids.push_back(token);
+            start = end + 1;
+          }
+          if (start < ids_raw.size() && ids.size() < 8) {
+            std::string token = ids_raw.substr(start);
+            while (!token.empty() && token.front() == ' ') token.erase(0, 1);
+            while (!token.empty() && token.back() == ' ') token.pop_back();
+            if (!token.empty()) ids.push_back(token);
+          }
+
+          // Parse names (same delimiter)
+          std::vector<std::string> names;
+          start = 0;
+          while ((end = names_raw.find(',', start)) != std::string::npos && names.size() < 8) {
+            std::string token = names_raw.substr(start, end - start);
+            while (!token.empty() && token.front() == ' ') token.erase(0, 1);
+            while (!token.empty() && token.back() == ' ') token.pop_back();
+            if (!token.empty()) names.push_back(token);
+            start = end + 1;
+          }
+          if (start < names_raw.size() && names.size() < 8) {
+            std::string token = names_raw.substr(start);
+            while (!token.empty() && token.front() == ' ') token.erase(0, 1);
+            while (!token.empty() && token.back() == ' ') token.pop_back();
+            if (!token.empty()) names.push_back(token);
+          }
+
+          // Store into globals, putting the selected media player first
+          std::string selected = id(media_player_entity).state;
+          int count = 0;
+
+          // Selected player goes in slot 0
+          for (size_t i = 0; i < ids.size(); i++) {
+            if (ids[i] == selected) {
+              id(speaker_entity_ids)[0] = ids[i];
+              id(speaker_names)[0] = (i < names.size()) ? names[i] : ids[i];
+              id(speaker_grouped)[0] = true;  // leader is always grouped
+              count = 1;
+              break;
+            }
+          }
+
+          // Remaining speakers fill slots 1..7
+          for (size_t i = 0; i < ids.size() && count < 8; i++) {
+            if (ids[i] != selected) {
+              id(speaker_entity_ids)[count] = ids[i];
+              id(speaker_names)[count] = (i < names.size()) ? names[i] : ids[i];
+              count++;
+            }
+          }
+
+          id(speaker_count) = count;
+          ESP_LOGI("speaker_group", "Discovered %d Sonos speakers", count);
+
+          if (count > 1) {
+            lv_obj_clear_flag(id(speaker_group_button), LV_OBJ_FLAG_HIDDEN);
+          } else {
+            lv_obj_add_flag(id(speaker_group_button), LV_OBJ_FLAG_HIDDEN);
+          }
+
+      - script.execute: update_group_state
+
+  # ---------------------------------------------------------------------------
+  # Parse group_members and update the grouped state for each speaker slot.
+  # group_members arrives as a string like: media_player.a, media_player.b
+  # (HA native API serializes lists with comma separation).
+  # ---------------------------------------------------------------------------
+  - id: update_group_state
+    mode: restart
+    then:
+      - lambda: |-
+          std::string raw = id(group_members_sensor).has_state()
+              ? id(group_members_sensor).state : "";
+
+          // Strip Python-style list brackets and quotes if present
+          while (!raw.empty() && (raw.front() == '[' || raw.front() == '\'' || raw.front() == '"' || raw.front() == ' '))
+            raw.erase(0, 1);
+          while (!raw.empty() && (raw.back() == ']' || raw.back() == '\'' || raw.back() == '"' || raw.back() == ' '))
+            raw.pop_back();
+
+          // Parse into a set of entity IDs
+          std::vector<std::string> members;
+          size_t start = 0, end;
+          while ((end = raw.find(',', start)) != std::string::npos) {
+            std::string token = raw.substr(start, end - start);
+            // Strip whitespace and quotes from each token
+            while (!token.empty() && (token.front() == ' ' || token.front() == '\'' || token.front() == '"'))
+              token.erase(0, 1);
+            while (!token.empty() && (token.back() == ' ' || token.back() == '\'' || token.back() == '"'))
+              token.pop_back();
+            if (!token.empty()) members.push_back(token);
+            start = end + 1;
+          }
+          if (start < raw.size()) {
+            std::string token = raw.substr(start);
+            while (!token.empty() && (token.front() == ' ' || token.front() == '\'' || token.front() == '"'))
+              token.erase(0, 1);
+            while (!token.empty() && (token.back() == ' ' || token.back() == '\'' || token.back() == '"'))
+              token.pop_back();
+            if (!token.empty()) members.push_back(token);
+          }
+
+          // Slot 0 (selected player) is always grouped
+          id(speaker_grouped)[0] = true;
+
+          // For slots 1..7, check membership
+          for (int i = 1; i < id(speaker_count); i++) {
+            bool found = false;
+            for (auto &m : members) {
+              if (m == id(speaker_entity_ids)[i]) {
+                found = true;
+                break;
+              }
+            }
+            id(speaker_grouped)[i] = found;
+          }
+
+      - script.execute: update_grouping_panel
+
+  # ---------------------------------------------------------------------------
+  # Refresh LVGL panel: set labels, switch states, and row visibility.
+  # ---------------------------------------------------------------------------
+  - id: update_grouping_panel
+    mode: restart
+    then:
+      - lambda: |-
+          lv_obj_t *name_labels[] = {
+            id(speaker_name_0), id(speaker_name_1), id(speaker_name_2), id(speaker_name_3),
+            id(speaker_name_4), id(speaker_name_5), id(speaker_name_6), id(speaker_name_7)
+          };
+          lv_obj_t *switches[] = {
+            id(speaker_sw_0), id(speaker_sw_1), id(speaker_sw_2), id(speaker_sw_3),
+            id(speaker_sw_4), id(speaker_sw_5), id(speaker_sw_6), id(speaker_sw_7)
+          };
+          lv_obj_t *rows[] = {
+            id(speaker_row_0), id(speaker_row_1), id(speaker_row_2), id(speaker_row_3),
+            id(speaker_row_4), id(speaker_row_5), id(speaker_row_6), id(speaker_row_7)
+          };
+
+          for (int i = 0; i < 8; i++) {
+            if (i < id(speaker_count)) {
+              lv_obj_clear_flag(rows[i], LV_OBJ_FLAG_HIDDEN);
+              lv_label_set_text(name_labels[i], id(speaker_names)[i].c_str());
+
+              if (id(speaker_grouped)[i]) {
+                lv_obj_add_state(switches[i], LV_STATE_CHECKED);
+              } else {
+                lv_obj_clear_state(switches[i], LV_STATE_CHECKED);
+              }
+
+              // Slot 0 is the leader — disable its switch
+              if (i == 0) {
+                lv_obj_add_state(switches[i], LV_STATE_DISABLED);
+              } else {
+                lv_obj_clear_state(switches[i], LV_STATE_DISABLED);
+              }
+            } else {
+              lv_obj_add_flag(rows[i], LV_OBJ_FLAG_HIDDEN);
+            }
+          }
+
+  # ---------------------------------------------------------------------------
+  # Open / close the grouping panel overlay
+  # ---------------------------------------------------------------------------
+  - id: open_grouping_panel
+    mode: single
+    then:
+      - lambda: 'id(grouping_panel_open) = true;'
+      - script.execute: update_grouping_panel
+      - lvgl.widget.show: speaker_group_panel
+
+  - id: close_grouping_panel
+    mode: single
+    then:
+      - lvgl.widget.hide: speaker_group_panel
+      - lambda: 'id(grouping_panel_open) = false;'
+
+  # ---------------------------------------------------------------------------
+  # Join / unjoin a speaker by slot index (stored in a global before calling).
+  # ---------------------------------------------------------------------------
+  - id: speaker_toggle
+    mode: single
+    parameters:
+      slot: int
+    then:
+      - lambda: |-
+          if (slot < 0 || slot >= id(speaker_count) || slot == 0) return;
+          bool currently_grouped = id(speaker_grouped)[slot];
+
+          if (currently_grouped) {
+            // Unjoin: target is the speaker being removed
+            id(speaker_unjoin_target) = id(speaker_entity_ids)[slot];
+            id(do_speaker_unjoin).execute();
+          } else {
+            // Join: target is the leader, member is the speaker being added
+            id(speaker_join_member) = id(speaker_entity_ids)[slot];
+            id(do_speaker_join).execute();
+          }
+
+  - id: do_speaker_join
+    mode: single
+    then:
+      - homeassistant.service:
+          service: media_player.join
+          variables:
+            target: !lambda 'return id(media_player_entity).state;'
+            member: !lambda 'return id(speaker_join_member);'
+          data_template:
+            entity_id: "{{ target }}"
+            group_members: "{{ member }}"
+          on_error:
+            - logger.log:
+                level: ERROR
+                tag: speaker_group
+                format: "Failed to join speaker"
+      - logger.log:
+          tag: speaker_group
+          format: "Joined speaker to group"
+
+  - id: do_speaker_unjoin
+    mode: single
+    then:
+      - homeassistant.service:
+          service: media_player.unjoin
+          variables:
+            target: !lambda 'return id(speaker_unjoin_target);'
+          data_template:
+            entity_id: "{{ target }}"
+          on_error:
+            - logger.log:
+                level: ERROR
+                tag: speaker_group
+                format: "Failed to unjoin speaker"
+      - logger.log:
+          tag: speaker_group
+          format: "Removed speaker from group"

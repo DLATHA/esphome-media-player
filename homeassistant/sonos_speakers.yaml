@@ -1,0 +1,38 @@
+# =============================================================================
+# SONOS SPEAKER DISCOVERY - Home Assistant Template Sensor
+# =============================================================================
+# Copy this file into your Home Assistant packages/ directory to auto-discover
+# all Sonos media_player entities. The ESPHome media panel subscribes to
+# this sensor to populate the speaker grouping UI.
+#
+# Setup:
+#   1. Copy this file to <HA config>/packages/sonos_speakers.yaml
+#   2. Ensure "packages:" is enabled in your configuration.yaml:
+#        homeassistant:
+#          packages: !include_dir_named packages
+#   3. Restart Home Assistant
+#
+# The sensor exposes two attributes consumed by the ESPHome panel:
+#   - entity_ids: comma-separated media_player entity IDs
+#   - names: comma-separated friendly names (matching order)
+# =============================================================================
+
+template:
+  - sensor:
+      - name: "Sonos Speakers"
+        unique_id: esphome_media_panel_sonos_speakers
+        icon: "mdi:speaker-multiple"
+        state: >-
+          {{ integration_entities("sonos")
+             | select("match", "media_player")
+             | list | count }}
+        attributes:
+          entity_ids: >-
+            {{ integration_entities("sonos")
+               | select("match", "media_player")
+               | join(",") }}
+          names: >-
+            {{ integration_entities("sonos")
+               | select("match", "media_player")
+               | map("state_attr", "friendly_name")
+               | join(",") }}
