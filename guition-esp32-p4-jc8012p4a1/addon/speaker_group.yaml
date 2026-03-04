@@ -38,6 +38,9 @@ globals:
   - id: prev_arc_value
     type: int
     initial_value: '-1'
+  - id: speaker_slider_updating
+    type: bool
+    initial_value: 'false'
 
 text_sensor:
   - platform: homeassistant
@@ -337,6 +340,12 @@ script:
             id(speaker_vol_up_0), id(speaker_vol_up_1), id(speaker_vol_up_2), id(speaker_vol_up_3),
             id(speaker_vol_up_4), id(speaker_vol_up_5), id(speaker_vol_up_6), id(speaker_vol_up_7)
           };
+          lv_obj_t *sliders[] = {
+            id(speaker_slider_0), id(speaker_slider_1), id(speaker_slider_2), id(speaker_slider_3),
+            id(speaker_slider_4), id(speaker_slider_5), id(speaker_slider_6), id(speaker_slider_7)
+          };
+
+          id(speaker_slider_updating) = true;
 
           for (int i = 0; i < 8; i++) {
             if (i < id(speaker_count)) {
@@ -347,10 +356,13 @@ script:
                 lv_obj_add_state(switches[i], LV_STATE_CHECKED);
                 lv_obj_clear_flag(vol_down[i], LV_OBJ_FLAG_HIDDEN);
                 lv_obj_clear_flag(vol_up[i], LV_OBJ_FLAG_HIDDEN);
+                lv_obj_clear_flag(sliders[i], LV_OBJ_FLAG_HIDDEN);
+                lv_slider_set_value(sliders[i], (int)(id(speaker_volumes)[i] * 100.0f), LV_ANIM_OFF);
               } else {
                 lv_obj_clear_state(switches[i], LV_STATE_CHECKED);
                 lv_obj_add_flag(vol_down[i], LV_OBJ_FLAG_HIDDEN);
                 lv_obj_add_flag(vol_up[i], LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(sliders[i], LV_OBJ_FLAG_HIDDEN);
               }
 
               if (i == 0) {
@@ -362,6 +374,8 @@ script:
               lv_obj_add_flag(rows[i], LV_OBJ_FLAG_HIDDEN);
             }
           }
+
+          id(speaker_slider_updating) = false;
 
   # ---------------------------------------------------------------------------
   # Join / unjoin a speaker by slot index (stored in a global before calling).
@@ -465,6 +479,27 @@ script:
             target: !lambda 'return id(speaker_vol_target);'
           data_template:
             entity_id: "{{ target }}"
+
+  # ---------------------------------------------------------------------------
+  # Per-speaker slider volume: debounced absolute volume set from slider drag.
+  # ---------------------------------------------------------------------------
+  - id: debounce_speaker_volume
+    mode: restart
+    then:
+      - delay: 150ms
+      - homeassistant.service:
+          service: media_player.volume_set
+          variables:
+            target: !lambda 'return id(speaker_vol_target);'
+            vol_level: !lambda |-
+              for (int i = 0; i < id(speaker_count); i++) {
+                if (id(speaker_entity_ids)[i] == id(speaker_vol_target))
+                  return id(speaker_volumes)[i];
+              }
+              return 0.5f;
+          data_template:
+            entity_id: "{{ target }}"
+            volume_level: "{{ vol_level }}"
 
   # ---------------------------------------------------------------------------
   # Group volume: adjusts all grouped speakers relative to their current level.
