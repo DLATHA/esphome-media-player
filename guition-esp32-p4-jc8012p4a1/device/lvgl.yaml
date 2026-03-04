@@ -456,7 +456,7 @@ lvgl:
                     - obj:
                         id: speaker_row_0
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -464,8 +464,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -510,7 +510,7 @@ lvgl:
                     - obj:
                         id: speaker_row_1
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -518,8 +518,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -588,7 +588,7 @@ lvgl:
                     - obj:
                         id: speaker_row_2
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -596,8 +596,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -666,7 +666,7 @@ lvgl:
                     - obj:
                         id: speaker_row_3
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -674,8 +674,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -744,7 +744,7 @@ lvgl:
                     - obj:
                         id: speaker_row_4
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -752,8 +752,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -822,7 +822,7 @@ lvgl:
                     - obj:
                         id: speaker_row_5
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -830,8 +830,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -900,7 +900,7 @@ lvgl:
                     - obj:
                         id: speaker_row_6
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -908,8 +908,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
@@ -978,7 +978,7 @@ lvgl:
                     - obj:
                         id: speaker_row_7
                         width: 1160
-                        height: 122
+                        height: 140
                         bg_opa: 0%
                         border_width: 1
                         border_color: 0xFFFFFF
@@ -986,8 +986,8 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 16
-                        pad_bottom: 16
+                        pad_top: 20
+                        pad_bottom: 20
                         scrollable: false
                         hidden: true
                         widgets:
