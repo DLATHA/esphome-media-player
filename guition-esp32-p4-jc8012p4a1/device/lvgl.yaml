@@ -390,19 +390,22 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               text: "Group Volume"
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 280
+                              flex_grow: 1
                           - button:
-                              align: right_mid
-                              x: -100
                               width: 58px
                               height: 58px
                               radius: 29
@@ -414,14 +417,13 @@ lvgl:
                               pad_all: 0
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
                               on_press:
                                 - script.execute: group_volume_down
                           - button:
-                              align: right_mid
                               width: 58px
                               height: 58px
                               radius: 29
@@ -433,7 +435,7 @@ lvgl:
                               pad_all: 0
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "+"
                                     text_color: 0xFFFFFF
@@ -451,22 +453,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_0
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 280
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_0
-                              align: right_mid
-                              x: -100
                               width: 58px
                               height: 58px
                               radius: 29
@@ -479,7 +484,7 @@ lvgl:
                               hidden: true
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
@@ -490,7 +495,6 @@ lvgl:
                                     direction: -1
                           - button:
                               id: speaker_vol_up_0
-                              align: right_mid
                               width: 58px
                               height: 58px
                               radius: 29
@@ -503,7 +507,7 @@ lvgl:
                               hidden: true
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "+"
                                     text_color: 0xFFFFFF
@@ -514,7 +518,7 @@ lvgl:
                                     direction: 1
 
                     # --- Rows 1-7 (other speakers) ---
-                    - obj: &speaker_row_template
+                    - obj:
                         id: speaker_row_1
                         width: 600
                         height: 72
@@ -525,22 +529,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_1
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_1
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -553,7 +560,7 @@ lvgl:
                               hidden: true
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
@@ -564,8 +571,6 @@ lvgl:
                                     direction: -1
                           - button:
                               id: speaker_vol_up_1
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -578,7 +583,7 @@ lvgl:
                               hidden: true
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "+"
                                     text_color: 0xFFFFFF
@@ -589,7 +594,6 @@ lvgl:
                                     direction: 1
                           - button:
                               id: speaker_btn_1
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
@@ -624,22 +628,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_2
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_2
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -652,7 +659,7 @@ lvgl:
                               hidden: true
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
@@ -663,8 +670,6 @@ lvgl:
                                     direction: -1
                           - button:
                               id: speaker_vol_up_2
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -677,7 +682,7 @@ lvgl:
                               hidden: true
                               widgets:
                                 - label:
-                                    text_font: roboto19_font
+                                    text_font: roboto24_font
                                     align: center
                                     text: "+"
                                     text_color: 0xFFFFFF
@@ -688,7 +693,6 @@ lvgl:
                                     direction: 1
                           - button:
                               id: speaker_btn_2
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
@@ -723,22 +727,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_3
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_3
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -749,21 +756,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "-"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 3
                                     direction: -1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "-"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_vol_up_3
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -774,20 +779,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "+"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 3
                                     direction: 1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "+"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_btn_3
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
@@ -822,22 +826,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_4
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_4
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -848,21 +855,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "-"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 4
                                     direction: -1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "-"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_vol_up_4
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -873,20 +878,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "+"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 4
                                     direction: 1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "+"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_btn_4
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
@@ -921,22 +925,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_5
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_5
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -947,21 +954,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "-"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 5
                                     direction: -1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "-"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_vol_up_5
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -972,20 +977,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "+"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 5
                                     direction: 1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "+"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_btn_5
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
@@ -1020,22 +1024,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_6
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_6
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -1046,21 +1053,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "-"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 6
                                     direction: -1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "-"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_vol_up_6
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -1071,20 +1076,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "+"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 6
                                     direction: 1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "+"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_btn_6
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
@@ -1119,22 +1123,25 @@ lvgl:
                         border_side: bottom
                         pad_left: 0
                         pad_right: 0
-                        pad_top: 12
-                        pad_bottom: 14
+                        pad_top: 4
+                        pad_bottom: 4
                         scrollable: false
                         hidden: true
+                        layout:
+                          type: flex
+                          flex_flow: ROW
+                          flex_align_main: space_between
+                          flex_align_cross: center
+                          pad_column: 8
                         widgets:
                           - label:
                               id: speaker_name_7
                               text: ""
                               text_font: roboto30_font
                               text_color: 0xFFFFFF
-                              align: left_mid
-                              width: 200
+                              flex_grow: 1
                           - button:
                               id: speaker_vol_down_7
-                              align: right_mid
-                              x: -168
                               width: 58px
                               height: 58px
                               radius: 29
@@ -1145,21 +1152,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "-"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 7
                                     direction: -1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "-"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_vol_up_7
-                              align: right_mid
-                              x: -76
                               width: 58px
                               height: 58px
                               radius: 29
@@ -1170,20 +1175,19 @@ lvgl:
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
+                              widgets:
+                                - label:
+                                    text_font: roboto24_font
+                                    align: center
+                                    text: "+"
+                                    text_color: 0xFFFFFF
                               on_press:
                                 - script.execute:
                                     id: speaker_volume_change
                                     slot: 7
                                     direction: 1
-                              widgets:
-                                - label:
-                                    text_font: roboto19_font
-                                    align: center
-                                    text: "+"
-                                    text_color: 0xFFFFFF
                           - button:
                               id: speaker_btn_7
-                              align: right_mid
                               width: SIZE_CONTENT
                               height: 58px
                               radius: 29
