@@ -44,6 +44,7 @@ online_image:
     format: jpeg
     placeholder: album_art_placeholder
     resize: 800x800
+    buffer_size: 131072
     on_download_finished:
       - script.execute: apply_downloaded_artwork
     on_error:
@@ -56,6 +57,7 @@ online_image:
     format: jpeg
     placeholder: album_art_placeholder
     resize: 800x800
+    buffer_size: 131072
     on_download_finished:
       - script.execute: apply_downloaded_artwork
     on_error:
