@@ -117,6 +117,18 @@ static int sw_fallback_draw_callback_(JPEGDRAW *jpeg) {
                                reinterpret_cast<const uint8_t *>(jpeg->pPixels));
     return 1;
   }
+  size_t height = static_cast<size_t>(jpeg->iHeight);
+  size_t width = static_cast<size_t>(jpeg->iWidth);
+  size_t position = 0;
+  for (size_t y = 0; y < height; y++) {
+    for (size_t x = 0; x < width; x++) {
+      if (jpeg->iBpp == 8) {
+        auto *bytes = reinterpret_cast<uint8_t *>(jpeg->pPixels);
+        uint8_t gray = bytes[position++];
+        decoder->draw(jpeg->x + x, jpeg->y + y, 1, 1, Color(gray, gray, gray));
+      }
+    }
+  }
   return 1;
 }
 
@@ -250,12 +262,17 @@ int HwJpegDecoder::software_decode_fallback_(uint8_t *buffer, size_t size) {
     return DECODE_ERROR_INVALID_TYPE;
   }
 
+  int bpp = jpeg.getBpp();
   int src_w = jpeg.getWidth();
   int src_h = jpeg.getHeight();
-  ESP_LOGD(TAG, "Software fallback: image size %d x %d", src_w, src_h);
+  ESP_LOGD(TAG, "Software fallback: image size %d x %d, bpp: %d", src_w, src_h, bpp);
 
   jpeg.setUserPointer(this);
-  jpeg.setPixelType(this->image_->is_big_endian() ? RGB565_BIG_ENDIAN : RGB565_LITTLE_ENDIAN);
+  if (bpp <= 8) {
+    jpeg.setPixelType(EIGHT_BIT_GRAYSCALE);
+  } else {
+    jpeg.setPixelType(this->image_->is_big_endian() ? RGB565_BIG_ENDIAN : RGB565_LITTLE_ENDIAN);
+  }
 
   int decode_options = 0;
   int out_w = src_w;
