@@ -24,6 +24,10 @@ export default {
         link: '/features',
       },
       {
+        text: 'Speaker Grouping',
+        link: '/speaker-grouping',
+      },
+      {
         text: 'Settings',
         link: '/configurable-settings',
       },
