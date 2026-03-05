@@ -430,7 +430,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: group_vol_btns
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -445,7 +445,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -462,7 +462,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -471,7 +471,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -536,7 +536,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_0
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -551,7 +551,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -571,7 +571,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -580,7 +580,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -652,7 +652,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_1
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -667,7 +667,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -687,7 +687,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -696,7 +696,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -768,7 +768,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_2
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -783,7 +783,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -803,7 +803,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -812,7 +812,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -884,7 +884,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_3
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -899,7 +899,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -919,7 +919,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -928,7 +928,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1000,7 +1000,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_4
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -1015,7 +1015,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1035,7 +1035,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -1044,7 +1044,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1116,7 +1116,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_5
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -1131,7 +1131,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1151,7 +1151,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -1160,7 +1160,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1232,7 +1232,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_6
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -1247,7 +1247,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1267,7 +1267,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -1276,7 +1276,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1348,7 +1348,7 @@ lvgl:
                                     text_opa: 80%
                           - obj:
                               id: speaker_btns_7
-                              width: 106
+                              width: 122
                               height: 48
                               radius: 24
                               bg_color: 0x535353
@@ -1363,7 +1363,7 @@ lvgl:
                                 pad_column: 0
                               widgets:
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
@@ -1383,7 +1383,7 @@ lvgl:
                                           align: center
                                 - obj:
                                     width: 2
-                                    height: 28
+                                    height: 48
                                     bg_color: 0x212121
                                     bg_opa: 100%
                                     radius: 0
@@ -1392,7 +1392,7 @@ lvgl:
                                     align: center
                                     clickable: false
                                 - button:
-                                    width: 52
+                                    width: 60
                                     height: 48
                                     radius: 0
                                     bg_opa: 0%
