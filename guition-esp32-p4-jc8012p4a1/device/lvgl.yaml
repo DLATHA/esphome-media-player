@@ -390,7 +390,7 @@ lvgl:
                         width: 200
                         height: 180
                         radius: 24
-                        bg_color: 0x5A5A5A
+                        bg_color: 0x4D4D4D
                         bg_opa: 100%
                         border_width: 0
                         pad_left: 20
