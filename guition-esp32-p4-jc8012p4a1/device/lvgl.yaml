@@ -390,7 +390,7 @@ lvgl:
                         width: 200
                         height: 180
                         radius: 24
-                        bg_color: 0x353535
+                        bg_color: 0x2C2C2C
                         bg_opa: 100%
                         border_width: 0
                         pad_left: 20
@@ -482,7 +482,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -580,7 +580,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -682,7 +682,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -784,7 +784,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -886,7 +886,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -988,7 +988,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -1090,7 +1090,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
@@ -1192,7 +1192,7 @@ lvgl:
                         bg_color: 0x000000
                         bg_opa: 100%
                         border_width: 2
-                        border_color: 0x4A4A4A
+                        border_color: 0x373737
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
