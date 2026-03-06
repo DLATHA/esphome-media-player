@@ -12,29 +12,25 @@ A touchscreen media controller for Home Assistant: album art, track info, and to
 
 [Guition ESP32-S3 4848S040 (4")](/devices/esp32-s3-4848s040)
 
-<div class="tip custom-block" style="padding-top: 8px">
-  Ready to set up your device? Follow the <a href="/installation">Installation Guide</a>.
-</div>
-
 ## Learn more
 
 - [Installation](/installation) — flash, connect, and configure your device
-- [Speaker Grouping](/speaker-grouping) — multi-room speaker control
-- [Settings](/configurable-settings) — brightness, timeouts, track info
-- [Manual installation](/manual-setup) — flash via ESPHome dashboard instead of the web installer
-- [Troubleshooting](/troubleshooting) — common issues and fixes
+- [Speaker Grouping](/features/speaker-grouping) — multi-room speaker control
+- [Settings](/features/settings) — brightness, timeouts, track info
+- [Manual installation](/advanced/manual-setup) — flash via ESPHome dashboard instead of the web installer
+- [Troubleshooting](/advanced/troubleshooting) — common issues and fixes
 
 ## Features
 
-Overview of what the media controller does. Many features are user-configurable from the device page in Home Assistant (**Settings → Devices & Services → ESPHome** → your device) — no YAML or reflashing needed. See [Settings](/configurable-settings) for the full reference.
+Overview of what the media controller does. Many features are user-configurable from the device page in Home Assistant (**Settings → Devices & Services → ESPHome** → your device) — no YAML or reflashing needed. See [Settings](/features/settings) for the full reference.
 
 ### Album art display
 
-Full-screen album art is loaded from your Home Assistant instance. When a new track starts, the current artwork dims to 40% while the new image downloads, then fades back to full brightness. If artwork doesn't appear, see [Troubleshooting](/troubleshooting#the-artwork-isnt-loading).
+Full-screen album art is loaded from your Home Assistant instance. When a new track starts, the current artwork dims to 40% while the new image downloads, then fades back to full brightness. If artwork doesn't appear, see [Troubleshooting](/advanced/troubleshooting#the-artwork-isnt-loading).
 
 ### Now playing info
 
-The screen shows song title, artist, elapsed and remaining time, and a progress bar. The bar updates every second with smooth interpolation between position updates from Home Assistant. Tap the time label to toggle between elapsed/remaining and elapsed/total duration display. The default mode is set by the **Playback: Show Remaining Time** switch in [Settings](/configurable-settings).
+The screen shows song title, artist, elapsed and remaining time, and a progress bar. The bar updates every second with smooth interpolation between position updates from Home Assistant. Tap the time label to toggle between elapsed/remaining and elapsed/total duration display. The default mode is set by the **Playback: Show Remaining Time** switch in [Settings](/features/settings).
 
 ### TV source mode (optional)
 
@@ -44,13 +40,13 @@ If your speaker has a "TV" source (e.g. a home theater setup), the controller ca
 - **Idle state** — when the TV player is idle, off, or on standby, the screen displays "TV" on a black background with playback controls hidden. Controls reappear when the TV player starts playing again.
 - **Routed controls** — play/pause, next, and previous are automatically sent to whichever player is active (music or TV).
 
-To enable this, set the optional **Sonos Tv Source** field in the device's configuration to the entity ID of your TV media player (e.g. `media_player.apple_tv`). Leave it empty to disable. See [Settings](/configurable-settings#tv-source) for details.
+To enable this, set the optional **Sonos Tv Source** field in the device's configuration to the entity ID of your TV media player (e.g. `media_player.apple_tv`). Leave it empty to disable. See [Settings](/features/settings#tv-source-optional) for details.
 
 ### Speaker grouping
 
 Group and ungroup multi-room speakers directly from the touchscreen. A speaker icon appears on the main screen — tap it to open a panel listing all your speakers with toggle switches to group or ungroup them. 
 
-This feature works with any speaker platform that supports grouping in Home Assistant. Requires a one-time setup of a template helper in Home Assistant — see [Speaker Grouping](/speaker-grouping) for instructions.
+This feature works with any speaker platform that supports grouping in Home Assistant. Requires a one-time setup of a template helper in Home Assistant — see [Speaker Grouping](/features/speaker-grouping) for instructions.
 
 ### Touch controls
 
@@ -66,4 +62,4 @@ When playback is paused, the device uses a two-stage screensaver:
 1. After **Timeout: Dimming** elapses, the screen dims to **Day/Night: Dim Brightness**.
 2. After **Timeout: Screen Off** elapses, the screen turns off (unless disabled by the **Day/Night: Screen Saver** switch, in which case it stays dimmed).
 
-Active brightness (**Day/Night: Active Brightness**) adjusts automatically between day and night based on the `sun.sun` entity in Home Assistant. All of these settings are configurable from the device page in Home Assistant (see [Settings](/configurable-settings)).
+Active brightness (**Day/Night: Active Brightness**) adjusts automatically between day and night based on the `sun.sun` entity in Home Assistant. All of these settings are configurable from the device page in Home Assistant (see [Settings](/features/settings)).

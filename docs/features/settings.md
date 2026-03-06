@@ -10,7 +10,7 @@ After first boot, the display shows **"Set media player in device settings"** un
 2. Under **Configuration**, find the **Media Player** field.
 3. Enter the entity ID (e.g. `media_player.living_room`).
 
-The device updates immediately and keeps your choice across reboots. You can change it anytime. See [How do I configure a media player?](/troubleshooting#how-do-i-configure-a-media-player) if you need more detail.
+The device updates immediately and keeps your choice across reboots. You can change it anytime. See [How do I configure a media player?](/advanced/troubleshooting#how-do-i-configure-a-media-player) if you need more detail.
 
 ### TV source (optional)
 

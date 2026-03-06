@@ -9,7 +9,7 @@ Common issues and what to try.
 3. On the ESPHome device: **Settings → Devices & Services → ESPHome** → your device.
 4. Under **Configuration**, find the **Media Player** field and enter that entity ID.
 
-The display will start showing that player’s now-playing info. You can change it later without reflashing. See [Settings](/configurable-settings) for more detail.
+The display will start showing that player’s now-playing info. You can change it later without reflashing. See [Settings](/features/settings) for more detail.
 
 ## The artwork isn’t loading
 
@@ -31,14 +31,14 @@ Play, pause, skip, and volume are sent from the panel to Home Assistant. If taps
 2. Find your device and click the **cog** to open its settings.
 3. Enable **“Allow the device to perform Home Assistant actions”** and save.
 
-Until this is enabled, the device cannot control your media player. See [Step 5: Enable device controls](/#step-5-enable-device-controls) in Getting Started.
+Until this is enabled, the device cannot control your media player. See [Step 5: Enable device controls](/installation#step-5-enable-device-controls) in Getting Started.
 
 ## Flashing doesn’t work
 
-The web installer and pre-built firmware only support the devices listed on the [Getting Started](/#what-you-need) page (e.g. Guition ESP32-S3 4848S040 and Guition ESP32-P4 JC8012P4A1). If you have a different board or panel:
+The web installer and pre-built firmware only support the devices listed on the [Getting Started](/installation#what-you-need) page (e.g. Guition ESP32-S3 4848S040 and Guition ESP32-P4 JC8012P4A1). If you have a different board or panel:
 
 - It may be an **unsupported device type**. We don’t provide installable images for every ESP32-based display; only the ones we document.
 - Try the [CH340 USB driver](https://www.wch-ic.com/downloads/CH341SER_EXE.html) if the port doesn’t appear at all.
-- For full control over the build, use [Manual Setup](/manual-setup) with the ESPHome dashboard and the appropriate device package from the repository (if available for your hardware).
+- For full control over the build, use [Manual Setup](/advanced/manual-setup) with the ESPHome dashboard and the appropriate device package from the repository (if available for your hardware).
 
 If you believe your device is supported and flashing still fails, open an [issue on GitHub](https://github.com/jtenniswood/esphome-media-player/issues) with your device name and what happens when you try to flash.

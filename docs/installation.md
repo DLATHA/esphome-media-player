@@ -18,7 +18,7 @@ Connect your panel to your computer via USB-C, select your device from the dropd
   </template>
 </ClientOnly>
 
-If the installer doesn't detect your device, try the [troubleshooting](/troubleshooting#flashing-doesnt-work) section. You may need the [CH340 USB driver](https://www.wch-ic.com/downloads/CH341SER_EXE.html) on your computer.
+If the installer doesn't detect your device, try the [troubleshooting](/advanced/troubleshooting#flashing-doesnt-work) section. You may need the [CH340 USB driver](https://www.wch-ic.com/downloads/CH341SER_EXE.html) on your computer.
 
 ## Step 2: Connect to WiFi
 
@@ -42,9 +42,9 @@ When the device is on your network:
 2. Under **Configuration**, find the **Media Player** field.
 3. Enter the entity ID of the player you want to control (e.g. `media_player.living_room`).
 
-The display will start showing the current track. You can change this later without reflashing. For more detail, see [How do I configure a media player?](/troubleshooting#how-do-i-configure-a-media-player).
+The display will start showing the current track. You can change this later without reflashing. For more detail, see [How do I configure a media player?](/advanced/troubleshooting#how-do-i-configure-a-media-player).
 
-**Optional:** If your speaker has a TV source (e.g. a home theater setup), you can also set the **Sonos Tv Source** field to show now-playing info from the TV media player when the speaker switches to its TV input. This is not required — see [Settings](/configurable-settings#tv-source) for details.
+**Optional:** If your speaker has a TV source (e.g. a home theater setup), you can also set the **Sonos Tv Source** field to show now-playing info from the TV media player when the speaker switches to its TV input. This is not required — see [Settings](/features/settings#tv-source-optional) for details.
 
 ## Step 5: Enable device controls
 
@@ -54,7 +54,7 @@ To let the panel control play, pause, skip, and volume:
 2. Find your device and open the **cog** to edit settings.
 3. Turn on **"Allow the device to perform Home Assistant actions"** and save.
 
-If the controls don't respond, see [Controls don't respond](/troubleshooting#controls-dont-respond).
+If the controls don't respond, see [Controls don't respond](/advanced/troubleshooting#controls-dont-respond).
 
 ## Automatic updates
 
@@ -70,6 +70,6 @@ Artwork load errors (e.g. when album art fails to download) are logged by the de
 
 ## Next steps
 
-- [Speaker Grouping](/speaker-grouping) — multi-room speaker control
-- [Settings](/configurable-settings) — brightness, timeouts, track info
-- [Troubleshooting](/troubleshooting) — common issues and fixes
+- [Speaker Grouping](/features/speaker-grouping) — multi-room speaker control
+- [Settings](/features/settings) — brightness, timeouts, track info
+- [Troubleshooting](/advanced/troubleshooting) — common issues and fixes

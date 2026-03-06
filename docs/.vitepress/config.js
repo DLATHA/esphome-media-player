@@ -33,8 +33,8 @@ export default {
       {
         text: 'Advanced',
         items: [
-          { text: 'Manual Setup', link: '/Advanced/manual-setup' },
-          { text: 'Troubleshooting', link: '/Advanced/troubleshooting' },
+          { text: 'Manual Setup', link: '/advanced/manual-setup' },
+          { text: 'Troubleshooting', link: '/advanced/troubleshooting' },
         ],
       },
     ],
