@@ -9,7 +9,7 @@ export default {
     ],
     sidebar: [
       {
-        text: 'Getting Started',
+        text: 'About',
         link: '/',
       },
       {
@@ -24,20 +24,18 @@ export default {
         ],
       },
       {
-        text: 'Speaker Grouping',
-        link: '/speaker-grouping',
+        text: 'Features',
+        items: [
+          { text: 'Speaker Grouping', link: '/speaker-grouping' },
+          { text: 'Settings', link: '/configurable-settings' },
+        ],
       },
       {
-        text: 'Settings',
-        link: '/configurable-settings',
-      },
-      {
-        text: 'Manual Installation',
-        link: '/manual-setup',
-      },
-      {
-        text: 'Troubleshooting',
-        link: '/troubleshooting',
+        text: 'Advanced',
+        items: [
+          { text: 'Manual Setup', link: '/Advanced/manual-setup' },
+          { text: 'Troubleshooting', link: '/Advanced/troubleshooting' },
+        ],
       },
     ],
   },
