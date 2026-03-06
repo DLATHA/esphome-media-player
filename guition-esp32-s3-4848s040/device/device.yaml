@@ -285,8 +285,9 @@ touchscreen:
             id(open_settings_panel).execute();
             return;
           }
-          // Swipe up to close: panel is open
-          if (dy < -60 && abs(dy) > abs(dx) * 2 && id(is_panel_open)) {
+          // Swipe up to close: panel is open, but not when speakers list is visible
+          if (dy < -60 && abs(dy) > abs(dx) * 2 && id(is_panel_open)
+              && lv_obj_has_flag(id(speakers_container), LV_OBJ_FLAG_HIDDEN)) {
             id(close_settings_panel).execute();
             return;
           }

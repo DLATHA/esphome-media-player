@@ -1,25 +1,33 @@
 # Speaker Grouping
 
-Control multi-room Sonos speaker groups directly from the touchscreen panel. When the selected media player is a Sonos speaker, the settings panel (swipe down) shows a speaker list on the right side where you can add or remove speakers from the group and adjust individual volumes.
+Control multi-room speaker groups directly from the touchscreen panel. The settings panel (swipe down) shows a speaker list on the right side where you can add or remove speakers from the group and adjust individual volumes.
+
+Speaker grouping requires speakers that support the `media_player.join` and `media_player.unjoin` services in Home Assistant. Not all speaker platforms support this — it has been tested with **Sonos** speakers.
 
 ![Speaker grouping panel](./images/speaker-grouping.png)
 
 ## How it works
 
-- The panel auto-discovers all Sonos speakers in your Home Assistant instance
-- The currently selected speaker is shown first with its toggle locked on (it's the group leader)
-- Toggle other speakers on to group them, or off to remove them
-- Grouped speakers are sorted to the top of the list
-- The main volume dial adjusts all grouped speakers proportionally, keeping their relative balance
+- The panel auto-discovers all speakers from the configured integration in your Home Assistant instance
+- The currently selected speaker is shown first
+- The main volume adjusts all grouped speakers proportionally, keeping their relative balance
 - Per-speaker `−` / `+` buttons let you fine-tune individual volumes within the group
-- Changes take effect immediately via the standard `media_player.join` and `media_player.unjoin` services
-- The toggle states update automatically when the group changes (from the panel, the HA app, or voice commands)
+- The toggle states update automatically when the group changes
+
+## Compatibility
+
+This feature relies on Home Assistant's `media_player.join` and `media_player.unjoin` services. These are only available on speaker platforms that support grouping. If your speakers don't support these services, the grouping controls will not work.
+
+| Platform | Supported | Notes |
+|----------|-----------|-------|
+| Sonos | Yes | Tested and confirmed |
+| Other | Maybe | Any platform that exposes `media_player.join` / `media_player.unjoin` should work, but has not been tested |
 
 ## Setup
 
-One template sensor helper needs to be created in Home Assistant. This is done entirely through the UI — no YAML editing required.
+One template sensor helper needs to be created in Home Assistant. This is done entirely through the UI — no YAML editing required. 
 
-### Create the Sonos Speakers sensor
+### Create the Speakers sensor
 
 1. Go to **Settings → Devices & Services → Helpers** tab
 2. Click **+ Create Helper** → **Template** → **Template a sensor**
@@ -47,12 +55,11 @@ Go to **Developer Tools → States** and search for `sensor.sonos_speakers`. It 
 office,kitchen|Office,Kitchen|0.45,0.6
 ```
 
-The ESPHome panel subscribes to this sensor automatically at boot. No device restart is needed after creating the helper.
+The ESPHome panel subscribes to this sensor automatically at boot. If the speaker page is empty, reboot the screen to see the update.
 
 ## Behavior
 
-- The speaker list appears in the settings panel (swipe down) when the selected media player is a Sonos device and there are at least two Sonos speakers
-- If you change the selected media player to a non-Sonos device, the speaker list hides automatically
+- The speaker list appears in the settings panel (swipe down) when there are at least two speakers from the configured integration
 - Up to 8 speakers are supported
 
 ## State template reference
