@@ -36,6 +36,7 @@ Add the following template sensor to your Home Assistant `configuration.yaml`, r
 template:
   - sensor:
       - name: "Speaker Group"
+        unique_id: speaker_group
         state: >
           {%- set s = integration_entities("sonos") | select("match", "media_player") | list -%}
           {{ s | count }}
