@@ -11,7 +11,7 @@
 globals:
   - id: ha_base_url
     type: std::string
-    initial_value: '"http://homeassistant.local:${ha_port}"'
+    initial_value: '"https://homeassistant.local:${ha_port}"'
   - id: last_media_position
     type: float
     initial_value: '0.0'
