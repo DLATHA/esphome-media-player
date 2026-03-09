@@ -188,6 +188,8 @@ text_sensor:
       - if:
           condition:
             lambda: |-
+              ESP_LOGD("DT artwork", "raw x = '%s'", x.c_str());
+              ESP_LOGD("DT artwork", "ha_base_url = '%s'", id(ha_base_url).c_str());
               if (id(is_tv_mode) || x.empty()) return false;
               std::string path = x;
               while (!path.empty() && (path.back() == '\n' || path.back() == '\r' || path.back() == ' ')) path.pop_back();
